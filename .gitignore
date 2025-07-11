@@ -36,3 +36,9 @@ build_graph.png
 lib_managed/
 project/build/target/
 project/boot/
+.classpath
+.project
+.gradle
+codes
+/bin/
+local.properties
