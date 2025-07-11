@@ -98,15 +98,14 @@ public class GZIPHeader implements Cloneable {
     }
   }
 
-  public String getName(){
-    if(name==null) return "";
-    try {
-      return new String(name, "ISO-8859-1");
-    }
-    catch (UnsupportedEncodingException e) {
-      throw new InternalError(e.toString());
-    }
-  }
+	public String getName() {
+		if (name == null) return "";
+		try {
+			return new String(name, "ISO-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.toString());
+		}
+	}
 
   public void setComment(String comment) {
     try{
@@ -117,15 +116,14 @@ public class GZIPHeader implements Cloneable {
     }
   }
 
-  public String getComment(){
-    if(comment==null) return "";
-    try {
-      return new String(comment, "ISO-8859-1");
-    }
-    catch (UnsupportedEncodingException e) {
-      throw new InternalError(e.toString());
-    }
-  }
+	public String getComment() {
+		if (comment == null) return "";
+		try {
+			return new String(comment, "ISO-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.toString());
+		}
+	}
 
   public void setCRC(long crc){
     this.crc = crc;
@@ -187,28 +185,38 @@ public class GZIPHeader implements Cloneable {
     }
   }
 
-  @Override
-  public Object clone() throws CloneNotSupportedException {
-    GZIPHeader gheader = (GZIPHeader)super.clone();
+  public Object copy() {
+    GZIPHeader gheader = new GZIPHeader();
+    
+    gheader.text = this.text;
+    gheader.fhcrc = this.fhcrc;
+    gheader.time = this.time;
+    gheader.xflags = this.xflags;
+    gheader.os = this.os;
+    gheader.hcrc = this.hcrc;
+    gheader.crc = this.crc;
+    gheader.done = this.done;
+    gheader.mtime = this.mtime;
+    
     byte[] tmp;
-    if(gheader.extra!=null){
-      tmp=new byte[gheader.extra.length];
-      System.arraycopy(gheader.extra, 0, tmp, 0, tmp.length);
-      gheader.extra = tmp;
+    if (gheader.extra != null) {
+    	tmp = new byte[gheader.extra.length];
+    	System.arraycopy(gheader.extra, 0, tmp, 0, tmp.length);
+    	gheader.extra = tmp;
     }
-
-    if(gheader.name!=null){
-      tmp=new byte[gheader.name.length];
-      System.arraycopy(gheader.name, 0, tmp, 0, tmp.length);
-      gheader.name = tmp;
+    
+    if (gheader.name != null) {
+    	tmp = new byte[gheader.name.length];
+    	System.arraycopy(gheader.name, 0, tmp, 0, tmp.length);
+    	gheader.name = tmp;
     }
-
-    if(gheader.comment!=null){
-      tmp=new byte[gheader.comment.length];
-      System.arraycopy(gheader.comment, 0, tmp, 0, tmp.length);
-      gheader.comment = tmp;
+    
+    if (gheader.comment != null) {
+    	tmp = new byte[gheader.comment.length];
+    	System.arraycopy(gheader.comment, 0, tmp, 0, tmp.length);
+    	gheader.comment = tmp;
     }
-
+    
     return gheader;
   }
 }

@@ -1686,18 +1686,56 @@ final class Deflate implements Cloneable {
     dest.data_type = src.data_type;
     dest.adler = src.adler.copy();
 
-    try{
-      dest.dstate = (Deflate)src.dstate.clone();
-      dest.dstate.strm = dest;
-    }
-    catch(CloneNotSupportedException e){
-      //
-    }
+    dest.dstate = src.dstate.copy();
+    dest.dstate.strm = dest;
     return Z_OK;
   }
 
-  public Object clone() throws CloneNotSupportedException {
-    Deflate dest = (Deflate)super.clone();
+  public Deflate copy() {
+    Deflate dest = new Deflate(null);
+
+    dest.strm = this.strm;
+    dest.status = this.status;
+    dest.pending_buf_size = this.pending_buf_size;
+    dest.pending_out = this.pending_out;
+    dest.pending = this.pending;
+    dest.wrap = this.wrap;
+    dest.data_type = this.data_type;
+    dest.method = this.method;
+    dest.last_flush = this.last_flush;
+    dest.w_size = this.w_size;
+    dest.w_bits = this.w_bits;
+    dest.w_mask = this.w_mask;
+    dest.window_size = this.window_size;
+    dest.ins_h = this.ins_h;
+    dest.hash_size = this.hash_size;
+    dest.hash_bits = this.hash_bits;
+    dest.hash_mask = this.hash_mask;
+    dest.hash_shift = this.hash_shift;
+    dest.block_start = this.block_start;
+    dest.match_length = this.match_length;
+    dest.prev_match = this.prev_match;
+    dest.match_available = this.match_available;
+    dest.strstart = this.strstart;
+    dest.match_start = this.match_start;
+    dest.lookahead = this.lookahead;
+    dest.prev_length = this.prev_length;
+    dest.max_chain_length = this.max_chain_length;
+    dest.max_lazy_match = this.max_lazy_match;
+    dest.level = this.level;
+    dest.strategy = this.strategy;
+    dest.good_match = this.good_match;
+    dest.nice_match = this.nice_match;
+    dest.heap_len = this.heap_len;
+    dest.heap_max = this.heap_max;
+    dest.lit_bufsize = this.lit_bufsize;
+    dest.last_lit = this.last_lit;
+    dest.opt_len = this.opt_len;
+    dest.static_len = this.static_len;
+    dest.matches = this.matches;
+    dest.last_eob_len = this.last_eob_len;
+    dest.bi_buf = this.bi_buf;
+    dest.bi_valid = this.bi_valid;
 
     dest.pending_buf = dup(dest.pending_buf);
     dest.d_buf = dest.d_buf;
@@ -1726,7 +1764,7 @@ final class Deflate implements Cloneable {
     */
 
     if(dest.gheader!=null){
-      dest.gheader = (GZIPHeader)dest.gheader.clone();
+      dest.gheader = (GZIPHeader) dest.gheader.copy();
     }
 
     return dest;
