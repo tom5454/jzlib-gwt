@@ -28,7 +28,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 package com.jcraft.jzlib;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class GZIPInputStream extends InflaterInputStream {
 
